@@ -1,35 +1,23 @@
-# Base Template
+# ignore-chunk
 
-## Get Started
-
-```bash
-npm install ignore-chunk
-```
+Filter out chunks of lines in a string based on start and stop criteria.
 
 ```javascript
-const IgnoreChunk = require('ignore-chunk');
+// Example: Ignore all lines between one and five.
 
-const myIgnore = new IgnoreChunk('--ignore-chunk');
+const myIgnore = new IgnoreChunk('two', 'four');
 
-const someString = `
-  Foo!
-  --ignore-chunk
-  Bar!
-  --ignore-chunk
-  Baz!
+const myString = `
+  one
+  two
+  three
+  four
+  five
 `;
 
-myIgnore(someString);
-// -->
-// Foo!
-// Baz!
+const filteredString = myIgnore.inString(myString);
+
+console.log(filteredString);
+// one
+// five
 ```
-
----
-
-## Development
-
-1. `npm install -g nodemon` for global packages
-1. `npm install` to install project packages
-1. `npm test` to run tests
-1. VSCode > Start Debugging (F5)
