@@ -1,22 +1,62 @@
 'use strict';
 
-const PORT = process.env.PORT;
-const url = require('url');
-const http = require('http');
+class IgnoreChunk {
+  constructor(begin, end) {
+    try {
+      this.begin = this.constructor.makeCheckFunc(begin);
+    } catch (error) {
+      if (error === 'invalid_type') {
+        throw new Error(
+          'begin argument must be of type "string" or "function".'
+        );
+      }
+    }
 
-const server = http.createServer((req, res) => {
-  const { pathname } = url.parse(req.url);
+    try {
+      this.end =
+        end !== undefined ? this.constructor.makeCheckFunc(end) : this.begin;
+    } catch (error) {
+      if (error === 'invalid_type') {
+        throw new Error(
+          'end argument must be of type "string" or "function" or undefined (default to begin).'
+        );
+      }
+    }
 
-  if (pathname === '/healthz') {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Hello, World!\n');
-  } else {
-    res.statusCode = 404;
-    res.end();
+    this.inString = this.inString.bind(this);
   }
-});
 
-server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`); //eslint-disable-line
-});
+  inString(data) {
+    const lines = data.split('\n');
+    let ignoreOn = false;
+
+    return lines
+      .filter(l => {
+        if (ignoreOn === false && this.begin(l) === true) {
+          ignoreOn = true;
+          return false;
+        } else if (ignoreOn === true && this.end(l) === true) {
+          ignoreOn = false;
+          return false;
+        } else {
+          return ignoreOn === false;
+        }
+      })
+      .join('\n');
+  }
+
+  static makeCheckFunc(arg) {
+    switch (typeof arg) {
+      case 'string':
+        return line => line.trim().startsWith(arg);
+
+      case 'function':
+        return arg;
+
+      default:
+        throw 'invalid_type';
+    }
+  }
+}
+
+module.exports = IgnoreChunk;
