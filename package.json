@@ -1,6 +1,6 @@
 {
   "name": "ignore-chunk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Filter chunk of lines based on start and stop criteria.",
   "keywords": [
     "ignore",
