@@ -1,5 +1,7 @@
 # ignore-chunk
 
+[![Build Status](https://travis-ci.com/eezing/ignore-chunk.svg?branch=master)](https://travis-ci.com/eezing/ignore-chunk)
+
 Filter chunk of lines based on start and stop criteria.
 
 ```javascript
