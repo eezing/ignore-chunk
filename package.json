@@ -38,7 +38,6 @@
     "jest": "^23.6.0",
     "prettier": "^1.14.3",
     "version": "npm test",
-    "postversion": "git push && git push --tags",
     "publish": "npm test"
   },
   "jest": {
