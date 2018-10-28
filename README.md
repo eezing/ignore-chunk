@@ -1,6 +1,6 @@
 # ignore-chunk
 
-Filter out chunks of lines in a string based on start and stop criteria.
+Filter chunk of lines based on start and stop criteria.
 
 ```javascript
 // Example: Ignore all lines between one and five.
