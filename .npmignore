@@ -1,0 +1,7 @@
+.vscode
+.env
+.eslintignore
+.gitignore
+.prettierignore
+.travis.yml
+src/__tests__
